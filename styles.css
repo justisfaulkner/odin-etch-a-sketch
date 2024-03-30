@@ -8,7 +8,7 @@
 }
 
 .grid-container {
-    border: 2px solid red;
+    border: 5px solid red;
     width: calc(var(--grid-item-size) * 16);
 }
 
@@ -17,7 +17,6 @@
 }
 
 .grid-item {
-    background-color: cornflowerblue;
     border: 1px solid black;
     display: flex;
     height: var(--grid-item-size);
@@ -26,4 +25,8 @@
     align-items: center;
     align-content: center;
     box-sizing: border-box;
+}
+
+.grid-item-black {
+    background-color: black;
 }

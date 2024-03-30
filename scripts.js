@@ -18,3 +18,11 @@ for (let i = 0; i < GRID_TOTAL; i++) {
         currentContainer.appendChild(gridItemDiv);
     }
 }
+
+const gridItems = document.querySelectorAll(".grid-item");
+
+gridItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+        item.classList.add("grid-item-black");
+    });
+});
