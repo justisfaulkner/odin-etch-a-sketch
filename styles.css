@@ -1,0 +1,29 @@
+:root {
+    --grid-item-size: 40px;
+}
+
+.etch-container {
+    display: flex;
+    justify-content: center;
+}
+
+.grid-container {
+    border: 2px solid red;
+    width: calc(var(--grid-item-size) * 16);
+}
+
+.grid-row-wrapper {
+    display: flex
+}
+
+.grid-item {
+    background-color: cornflowerblue;
+    border: 1px solid black;
+    display: flex;
+    height: var(--grid-item-size);
+    flex: 0 0 var(--grid-item-size);
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+}
