@@ -1,28 +1,65 @@
-const GRID_SIZE = 16;
-const GRID_TOTAL = GRID_SIZE * GRID_SIZE;
+const r = document.querySelector(":root")
+// let pixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
+// console.log(pixelSize);
+// const GRID_ROW_SIZE = parseInt(getComputedStyle(r).getPropertyValue("--grid-container-size"));
+// const GRID_TOTAL = ((GRID_ROW_SIZE * GRID_ROW_SIZE)/pixelSize);
+const GRID_SIZE = parseInt(getComputedStyle(r).getPropertyValue("--grid-container-size"));
+let pixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
+let itemsPerRow = Math.floor(GRID_SIZE / pixelSize);
+let total_items = (itemsPerRow * itemsPerRow)
+let gridHeightMultiplier = (GRID_SIZE / (pixelSize * itemsPerRow));
+
 const gridContainer = document.querySelector(".grid-container");
+const pixelSetBtn = document.querySelector("#pixel-set-button");
 
+paintGrid(total_items, itemsPerRow);
 
-for (let i = 0; i < GRID_TOTAL; i++) {
-    const gridItemDiv = document.createElement("div");
-    gridItemDiv.classList.add("grid-item")
-    gridItemDiv.setAttribute("data-grid-number", i)
+pixelSetBtn.addEventListener("click", updateGridSizing);
 
-    if (i === 0 || i % GRID_SIZE === 0){
-        const gridRowContainer = document.createElement("div");
-        gridRowContainer.classList.add("grid-row-wrapper");
-        gridContainer.appendChild(gridRowContainer);
-        gridRowContainer.appendChild(gridItemDiv);
-    } else {
-        const currentContainer = gridContainer.lastChild;
-        currentContainer.appendChild(gridItemDiv);
-    }
+//need to add a clearGrid function
+function updateGridSizing() {
+    clearGrid();
+    const userPixelSize = parseInt(prompt("Pixel Size"));
+    itemsPerRow = Math.floor(GRID_SIZE / userPixelSize);
+    total_items = (itemsPerRow * itemsPerRow)
+    gridHeightMultiplier = (GRID_SIZE / (userPixelSize * itemsPerRow));
+    r.style.setProperty("--grid-item-size", `${userPixelSize}px`);
+    r.style.setProperty("--grid-height-multiplier", gridHeightMultiplier);
+    paintGrid(total_items, itemsPerRow);
 }
 
-const gridItems = document.querySelectorAll(".grid-item");
+function paintGrid(total_items, itemsPerRow) {
+    let counter = 0;
+    for (let i = 0; i < total_items; i++) {
+        const gridItemDiv = document.createElement("div");
+        gridItemDiv.classList.add("grid-item")
+        gridItemDiv.setAttribute("data-grid-number", i)
 
-gridItems.forEach((item) => {
-    item.addEventListener("mouseenter", () => {
-        item.classList.add("grid-item-black");
+        if (i === 0 || i % itemsPerRow === 0) {
+            const gridRowContainer = document.createElement("div");
+            gridRowContainer.classList.add("grid-row-wrapper");
+            gridRowContainer.setAttribute("data-row-number", counter);
+            gridContainer.appendChild(gridRowContainer);
+            gridRowContainer.appendChild(gridItemDiv);
+            counter++;
+        } else {
+            const currentContainer = gridContainer.lastChild;
+            currentContainer.appendChild(gridItemDiv);
+        }
+    }
+
+    const gridItems = document.querySelectorAll(".grid-item");
+
+    gridItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            item.classList.add("grid-item-black");
+        });
     });
-});
+}
+
+function clearGrid() {
+    wrappers = document.querySelectorAll(".grid-row-wrapper");
+    wrappers.forEach((wrapper) => {
+        wrapper.remove();
+    })
+}

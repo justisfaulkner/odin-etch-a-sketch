@@ -1,5 +1,7 @@
 :root {
     --grid-item-size: 40px;
+    --grid-container-size: 650px;
+    --grid-height-multiplier: 1.015625;
 }
 
 .etch-container {
@@ -9,21 +11,20 @@
 
 .grid-container {
     border: 5px solid red;
-    width: calc(var(--grid-item-size) * 16);
+    height: var(--grid-container-size);
+    width: var(--grid-container-size);
 }
 
 .grid-row-wrapper {
-    display: flex
+    display: flex;
 }
 
 .grid-item {
     border: 1px solid black;
     display: flex;
-    height: var(--grid-item-size);
-    flex: 0 0 var(--grid-item-size);
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    flex: 1;
+    height: calc(var(--grid-item-size)*var(--grid-height-multiplier));
+    /* width: var(--grid-item-size); */
     box-sizing: border-box;
 }
 
