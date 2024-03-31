@@ -2,6 +2,7 @@
     --grid-item-size: 40px;
     --grid-container-size: 650px;
     --grid-height-multiplier: 1.015625;
+    --random-background-color: black;
 }
 
 .options-container {
@@ -40,4 +41,12 @@
 
 .grid-item-black {
     background-color: black;
+}
+
+.grid-item-white {
+    background-color: white;
+}
+
+.grid-item-random {
+    background-color: var(--random-background-color);
 }

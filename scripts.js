@@ -7,15 +7,19 @@ let gridHeightMultiplier = (GRID_SIZE / (initialPixelSize * itemsPerRow));
 
 const gridContainer = document.querySelector(".grid-container");
 const pixelSetBtn = document.querySelector("#pixel-set-button");
+const blackPenBtn = document.querySelector("#use-black-button");
+const randomPenBtn = document.querySelector("#use-random-button");
+const eraserBtn = document.querySelector("#use-eraser-button");
 const resetBtn = document.querySelector("#reset-grid-button");
-const eraserBtn = document.querySelector("#toggle-eraser-button");
 
 paintGrid(total_items, itemsPerRow);
 useBlackPen();
 
 pixelSetBtn.addEventListener("click", updateGridSizing);
+blackPenBtn.addEventListener("click", useBlackPen);
+randomPenBtn.addEventListener("click", useRandomPen);
+eraserBtn.addEventListener("click", useEraser);
 resetBtn.addEventListener("click", resetGrid);
-eraserBtn.addEventListener("click", toggleEraser);
 
 let userPixelSize;
 
@@ -74,25 +78,36 @@ function useBlackPen() {
 
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
+            item.className = "grid-item";
             item.classList.add("grid-item-black");
         });
     });
 }
 
-function useRandomColoredPen() {
-    // code to implement random colors
+function useRandomPen() {
+    const gridItems = document.querySelectorAll(".grid-item");
+
+    gridItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            item.className = "grid-item";
+            const randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
+            r.style.setProperty("--random-background-color", randomColor);
+            item.classList.add("grid-item-random");
+        });
+    });
 }
 
 function useGradientPen() {
     // code to implement 1% gradient pen
 }
 
-function toggleEraser() {
+function useEraser() {
     const gridItems = document.querySelectorAll(".grid-item");
     
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
-            item.classList.toggle("grid-item-black");
+            item.className = "grid-item";
+            item.classList.add("grid-item-white");
         });
     });
 }
