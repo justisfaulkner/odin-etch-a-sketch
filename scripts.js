@@ -19,7 +19,7 @@ pixelSetBtn.addEventListener("click", updateGridSizing);
 //need to add a clearGrid function
 function updateGridSizing() {
     clearGrid();
-    const userPixelSize = parseInt(prompt("Pixel Size"));
+    let userPixelSize = getPixelSize();
     itemsPerRow = Math.floor(GRID_SIZE / userPixelSize);
     total_items = (itemsPerRow * itemsPerRow)
     gridHeightMultiplier = (GRID_SIZE / (userPixelSize * itemsPerRow));
@@ -27,6 +27,21 @@ function updateGridSizing() {
     r.style.setProperty("--grid-height-multiplier", gridHeightMultiplier);
     paintGrid(total_items, itemsPerRow);
 }
+
+function getPixelSize() {
+    let userPixelSize;
+    while (true) {
+        let input = prompt("Pixel Size");
+        userPixelSize = parseInt(input);
+        if (!isNaN(userPixelSize)) {
+            if (userPixelSize < 5) userPixelSize = 5;
+            if (userPixelSize > 300) userPixelSize = 300;
+            break;
+        }
+    }
+    return userPixelSize;
+}
+
 
 function paintGrid(total_items, itemsPerRow) {
     let counter = 0;
