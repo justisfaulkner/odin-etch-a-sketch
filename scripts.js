@@ -11,6 +11,7 @@ const resetBtn = document.querySelector("#reset-grid-button");
 const eraserBtn = document.querySelector("#toggle-eraser-button");
 
 paintGrid(total_items, itemsPerRow);
+useBlackPen();
 
 pixelSetBtn.addEventListener("click", updateGridSizing);
 resetBtn.addEventListener("click", resetGrid);
@@ -66,7 +67,9 @@ function paintGrid(total_items, itemsPerRow) {
             currentContainer.appendChild(gridItemDiv);
         }
     }
+}
 
+function useBlackPen() {
     const gridItems = document.querySelectorAll(".grid-item");
 
     gridItems.forEach((item) => {
@@ -76,16 +79,17 @@ function paintGrid(total_items, itemsPerRow) {
     });
 }
 
-function clearGrid() {
-    wrappers = document.querySelectorAll(".grid-row-wrapper");
-    wrappers.forEach((wrapper) => {
-        wrapper.remove();
-    })
+function useRandomColoredPen() {
+    // code to implement random colors
+}
+
+function useGradientPen() {
+    // code to implement 1% gradient pen
 }
 
 function toggleEraser() {
     const gridItems = document.querySelectorAll(".grid-item");
-
+    
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
             item.classList.toggle("grid-item-black");
@@ -95,8 +99,14 @@ function toggleEraser() {
 
 function resetGrid() {
     const gridItems = document.querySelectorAll(".grid-item");
-
+    
     gridItems.forEach((item) => {
-            item.classList.remove("grid-item-black");
+        item.classList.remove("grid-item-black");
     });
+}
+function clearGrid() {
+    wrappers = document.querySelectorAll(".grid-row-wrapper");
+    wrappers.forEach((wrapper) => {
+        wrapper.remove();
+    })
 }
