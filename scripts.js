@@ -1,25 +1,26 @@
 const r = document.querySelector(":root")
-// let pixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
-// console.log(pixelSize);
-// const GRID_ROW_SIZE = parseInt(getComputedStyle(r).getPropertyValue("--grid-container-size"));
-// const GRID_TOTAL = ((GRID_ROW_SIZE * GRID_ROW_SIZE)/pixelSize);
 const GRID_SIZE = parseInt(getComputedStyle(r).getPropertyValue("--grid-container-size"));
-let pixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
-let itemsPerRow = Math.floor(GRID_SIZE / pixelSize);
+let initialPixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
+let itemsPerRow = Math.floor(GRID_SIZE / initialPixelSize);
 let total_items = (itemsPerRow * itemsPerRow)
-let gridHeightMultiplier = (GRID_SIZE / (pixelSize * itemsPerRow));
+let gridHeightMultiplier = (GRID_SIZE / (initialPixelSize * itemsPerRow));
 
 const gridContainer = document.querySelector(".grid-container");
 const pixelSetBtn = document.querySelector("#pixel-set-button");
+const resetBtn = document.querySelector("#reset-grid-button");
+const eraserBtn = document.querySelector("#toggle-eraser-button");
 
 paintGrid(total_items, itemsPerRow);
 
 pixelSetBtn.addEventListener("click", updateGridSizing);
+resetBtn.addEventListener("click", resetGrid);
+eraserBtn.addEventListener("click", toggleEraser);
 
-//need to add a clearGrid function
+let userPixelSize;
+
 function updateGridSizing() {
     clearGrid();
-    let userPixelSize = getPixelSize();
+    userPixelSize = getPixelSize();
     itemsPerRow = Math.floor(GRID_SIZE / userPixelSize);
     total_items = (itemsPerRow * itemsPerRow)
     gridHeightMultiplier = (GRID_SIZE / (userPixelSize * itemsPerRow));
@@ -29,9 +30,12 @@ function updateGridSizing() {
 }
 
 function getPixelSize() {
-    let userPixelSize;
     while (true) {
         let input = prompt("Pixel Size");
+        if (input === "") {
+            userPixelSize = initialPixelSize;
+            break;
+        }
         userPixelSize = parseInt(input);
         if (!isNaN(userPixelSize)) {
             if (userPixelSize < 5) userPixelSize = 5;
@@ -77,4 +81,22 @@ function clearGrid() {
     wrappers.forEach((wrapper) => {
         wrapper.remove();
     })
+}
+
+function toggleEraser() {
+    const gridItems = document.querySelectorAll(".grid-item");
+
+    gridItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            item.classList.toggle("grid-item-black");
+        });
+    });
+}
+
+function resetGrid() {
+    const gridItems = document.querySelectorAll(".grid-item");
+
+    gridItems.forEach((item) => {
+            item.classList.remove("grid-item-black");
+    });
 }

@@ -4,6 +4,17 @@
     --grid-height-multiplier: 1.015625;
 }
 
+.options-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.option-button{
+    margin: 0 20px 0 20px;
+}
+
 .etch-container {
     display: flex;
     justify-content: center;
@@ -24,7 +35,6 @@
     display: flex;
     flex: 1;
     height: calc(var(--grid-item-size)*var(--grid-height-multiplier));
-    /* width: var(--grid-item-size); */
     box-sizing: border-box;
 }
 
