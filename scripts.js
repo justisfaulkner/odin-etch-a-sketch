@@ -1,3 +1,5 @@
+import { clickedOptionHandler } from "./handlers.js"
+
 const r = document.querySelector(":root")
 const GRID_SIZE = parseInt(getComputedStyle(r).getPropertyValue("--grid-container-size"));
 let initialPixelSize = parseInt(getComputedStyle(r).getPropertyValue("--grid-item-size"));
@@ -6,20 +8,23 @@ let total_items = (itemsPerRow * itemsPerRow)
 let gridHeightMultiplier = (GRID_SIZE / (initialPixelSize * itemsPerRow));
 
 const gridContainer = document.querySelector(".grid-container");
-const pixelSetBtn = document.querySelector("#pixel-set-button");
-const blackPenBtn = document.querySelector("#use-black-button");
-const randomPenBtn = document.querySelector("#use-random-button");
-const eraserBtn = document.querySelector("#use-eraser-button");
-const resetBtn = document.querySelector("#reset-grid-button");
+const optionsContainer = document.querySelector(".options-container")
+// const pixelSetBtn = document.querySelector("#pixel-set-button");
+// const blackPenBtn = document.querySelector("#use-black-button");
+// const randomPenBtn = document.querySelector("#use-random-button");
+// const eraserBtn = document.querySelector("#use-eraser-button");
+// const resetBtn = document.querySelector("#reset-grid-button");
 
 paintGrid(total_items, itemsPerRow);
 useBlackPen();
 
-pixelSetBtn.addEventListener("click", updateGridSizing);
-blackPenBtn.addEventListener("click", useBlackPen);
-randomPenBtn.addEventListener("click", useRandomPen);
-eraserBtn.addEventListener("click", useEraser);
-resetBtn.addEventListener("click", resetGrid);
+optionsContainer.addEventListener("click", clickedOptionHandler);
+
+// setPixelBtn.addEventListener("click", updateGridSizing);
+// blackPenBtn.addEventListener("click", useBlackPen);
+// randomPenBtn.addEventListener("click", useRandomPen);
+// eraserBtn.addEventListener("click", useEraser);
+// resetBtn.addEventListener("click", resetGrid);
 
 let userPixelSize;
 
@@ -32,6 +37,7 @@ function updateGridSizing() {
     r.style.setProperty("--grid-item-size", `${userPixelSize}px`);
     r.style.setProperty("--grid-height-multiplier", gridHeightMultiplier);
     paintGrid(total_items, itemsPerRow);
+    useBlackPen();
 }
 
 function getPixelSize() {
@@ -51,6 +57,19 @@ function getPixelSize() {
     return userPixelSize;
 }
 
+function resetGrid() {
+    const gridItems = document.querySelectorAll(".grid-item");
+
+    gridItems.forEach((item) => {
+        item.className = "grid-item";
+    });
+}
+function clearGrid() {
+    wrappers = document.querySelectorAll(".grid-row-wrapper");
+    wrappers.forEach((wrapper) => {
+        wrapper.remove();
+    })
+}
 
 function paintGrid(total_items, itemsPerRow) {
     let counter = 0;
@@ -79,7 +98,7 @@ function useBlackPen() {
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
             item.className = "grid-item";
-            item.classList.add("grid-item-black");
+            item.style.backgroundColor = "black"
         });
     });
 }
@@ -90,9 +109,10 @@ function useRandomPen() {
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
             item.className = "grid-item";
-            const randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
-            r.style.setProperty("--random-background-color", randomColor);
-            item.classList.add("grid-item-random");
+            const randomColor = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+            // r.style.setProperty("--random-background-color", randomColor);
+            // item.classList.add("grid-item-random");
+            item.style.backgroundColor = randomColor;
         });
     });
 }
@@ -101,27 +121,14 @@ function useGradientPen() {
     // code to implement 1% gradient pen
 }
 
-function useEraser() {
+function useWhitePen() {
     const gridItems = document.querySelectorAll(".grid-item");
-    
+
     gridItems.forEach((item) => {
         item.addEventListener("mouseenter", () => {
             item.className = "grid-item";
+            item.style.backgroundColor = "white"
             item.classList.add("grid-item-white");
         });
     });
-}
-
-function resetGrid() {
-    const gridItems = document.querySelectorAll(".grid-item");
-    
-    gridItems.forEach((item) => {
-        item.classList.remove("grid-item-black");
-    });
-}
-function clearGrid() {
-    wrappers = document.querySelectorAll(".grid-row-wrapper");
-    wrappers.forEach((wrapper) => {
-        wrapper.remove();
-    })
 }
