@@ -9,24 +9,24 @@ let gridHeightMultiplier = (GRID_SIZE / (initialPixelSize * itemsPerRow));
 
 const gridContainer = document.querySelector(".grid-container");
 const optionsContainer = document.querySelector(".options-container")
-// const pixelSetBtn = document.querySelector("#pixel-set-button");
+const setPixelBtn = document.querySelector("#set-pixel-button");
+const resetBtn = document.querySelector("#reset-grid-button");
 // const blackPenBtn = document.querySelector("#use-black-button");
 // const randomPenBtn = document.querySelector("#use-random-button");
 // const eraserBtn = document.querySelector("#use-eraser-button");
-// const resetBtn = document.querySelector("#reset-grid-button");
 
 paintGrid(total_items, itemsPerRow);
 useBlackPen();
 
 optionsContainer.addEventListener("click", clickedOptionHandler);
 
-// setPixelBtn.addEventListener("click", updateGridSizing);
+setPixelBtn.addEventListener("click", updateGridSizing);
+resetBtn.addEventListener("click", resetGrid);
 // blackPenBtn.addEventListener("click", useBlackPen);
 // randomPenBtn.addEventListener("click", useRandomPen);
 // eraserBtn.addEventListener("click", useEraser);
-// resetBtn.addEventListener("click", resetGrid);
 
-let userPixelSize;
+export let userPixelSize = 40;
 
 function updateGridSizing() {
     clearGrid();
@@ -61,11 +61,13 @@ function resetGrid() {
     const gridItems = document.querySelectorAll(".grid-item");
 
     gridItems.forEach((item) => {
-        item.className = "grid-item";
+        item.style.backgroundColor = "white";
+        item.style.opacity = 1;
     });
 }
+
 function clearGrid() {
-    wrappers = document.querySelectorAll(".grid-row-wrapper");
+    const wrappers = document.querySelectorAll(".grid-row-wrapper");
     wrappers.forEach((wrapper) => {
         wrapper.remove();
     })
